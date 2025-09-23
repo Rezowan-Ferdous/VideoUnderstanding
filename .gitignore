@@ -1,0 +1,86 @@
+# Byte-compiled / optimized / C extensions
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+env/
+.venv/
+.env
+
+# IDE / Editor directories
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# macOS
+.DS_Store
+
+# Logs and Outputs from Hydra/PyTorch Lightning
+outputs/
+multirun/
+lightning_logs/
+*.log
+
+# Experiment Tracking
+wandb/
+mlruns/
+.mlflow-cache/
+
+# Data, Features, and Model Artifacts
+# These are often large and should not be versioned with the code.
+/data/
+/features/
+*.ckpt
+*.pth
+*.pt
+*.onnx
+*.pb
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Generated Visualizations
+*.png
+*.jpg
+*.jpeg
+
+# NumPy files
+*.npy
+*.npz
+
+# Python reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
