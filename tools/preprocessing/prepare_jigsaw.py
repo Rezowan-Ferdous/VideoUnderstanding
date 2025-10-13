@@ -23,67 +23,67 @@ import argparse
 
 verb_ids= ["reaching","positioning","pushing", "transferring", "moving_center","pulling","G6","G7","G8","G9","G10","G11","G12","G13","G14","G15"]
 
-action_ids= {"G1" :{
-                "clip_uid": "G1_reaching_needle_rh",
-                "action":{
-                "verb": ["reaching"],
-                "objects": ["needle"],
-                "descriptions":"reaching for the needle with right hand"},
-          "hands":[
-        {
-          "hand_uid": "JIGSAWS_Knot_Tying_B001_0_rh",
-          "side": "right",  
-          "state": "holding",
-          "contact_object_uid": ["needle"],
-          "bounding_box": [150, 200, 50, 60]
-        },
-        {
-          "hand_uid": "JIGSAWS_Knot_Tying_B001_0_lh",
-          "side": "left", 
-          "state": "inactive",
-          "contact_object_uid": [],
-          "bounding_box": []
-        }
-      ],
-          "objects": [{"object_id": "needle", "type": "tool", "bounding_box": [100, 150, 30, 40]}, {
-            "object_id": "tissue", "type": "tissue", "bounding_box": [200, 250, 100, 120]
-          },],
-          "chirality": ["right"],
-          "description": "reaching for the needle with right hand"
-        },
-        "G2" :{
-          "clip_uid": "positioning_needle_",
-          "objects": ["needle"],
-          "verb": ["positioning"],
-          "hands":[],
-          "chirality": [],
-          "description": "positioning the tip of the needle"
-        },
-        "G3" :{
-          "clip_uid": "pushing_needle_",
-          "objects": ["needle"],
-          "verb": ["positioning"],
-          "hands":[],
-          "chirality": [],
-          "description": "positioning the tip of the needle"
-        ,}
+# action_ids= {"G1" :{
+#                 "clip_uid": "G1_reaching_needle_rh",
+#                 "action":{
+#                 "verb": ["reaching"],
+#                 "objects": ["needle"],
+#                 "descriptions":"reaching for the needle with right hand"},
+#           "hands":[
+#         {
+#           "hand_uid": "JIGSAWS_Knot_Tying_B001_0_rh",
+#           "side": "right",  
+#           "state": "holding",
+#           "contact_object_uid": ["needle"],
+#           "bounding_box": [150, 200, 50, 60]
+#         },
+#         {
+#           "hand_uid": "JIGSAWS_Knot_Tying_B001_0_lh",
+#           "side": "left", 
+#           "state": "inactive",
+#           "contact_object_uid": [],
+#           "bounding_box": []
+#         }
+#       ],
+#           "objects": [{"object_id": "needle", "type": "tool", "bounding_box": [100, 150, 30, 40]}, {
+#             "object_id": "tissue", "type": "tissue", "bounding_box": [200, 250, 100, 120]
+#           },],
+#           "chirality": ["right"],
+#           "description": "reaching for the needle with right hand"
+#         },
+#         "G2" :{
+#           "clip_uid": "positioning_needle_",
+#           "objects": ["needle"],
+#           "verb": ["positioning"],
+#           "hands":[],
+#           "chirality": [],
+#           "description": "positioning the tip of the needle"
+#         },
+#         "G3" :{
+#           "clip_uid": "pushing_needle_",
+#           "objects": ["needle"],
+#           "verb": ["positioning"],
+#           "hands":[],
+#           "chirality": [],
+#           "description": "positioning the tip of the needle"
+#         ,}
 
-JIGSAW_INTERACTION_MAP = {
-    "G1": ["needle"],
-    "G2": ["needle"],
-    "G3": ["needle", "tissue"],
-    "G4": ["needle"],
-    "G5": ["needle"],
-    "G6": ["suture"],  
-    "G7": ["suture"],
-    "G8": ["needle"],  
-    "G9": ["suture"],
-    "G10": ["suture"],
-    "G11": ["needle"],
-    "G12": ["needle"],
-    "G13": ["suture"],
-    "G14": ["suture"],
-    "G15": ["suture"]   }
+# JIGSAW_INTERACTION_MAP = {
+#     "G1": ["needle"],
+#     "G2": ["needle"],
+#     "G3": ["needle", "tissue"],
+#     "G4": ["needle"],
+#     "G5": ["needle"],
+#     "G6": ["suture"],  
+#     "G7": ["suture"],
+#     "G8": ["needle"],  
+#     "G9": ["suture"],
+#     "G10": ["suture"],
+#     "G11": ["needle"],
+#     "G12": ["needle"],
+#     "G13": ["suture"],
+#     "G14": ["suture"],
+#     "G15": ["suture"]   }
 
 def parse_meta_file(meta_file_path, task_name):
     trials ={}
