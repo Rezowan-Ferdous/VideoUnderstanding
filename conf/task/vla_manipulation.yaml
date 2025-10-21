@@ -1,0 +1,22 @@
+_target_: src.tasks.supervised.vla.manipulation_task.ManipulationTask
+
+model:
+  name: rt2
+  backbone: paligemma-3b
+  action_dim: 7
+  discrete_actions: false
+  action_bins: 256
+
+loss:
+  name: mse
+  huber_delta: 1.0
+
+optimizer:
+  lr: 3e-4
+  weight_decay: 0.0001
+
+data:
+  trajectory_length: 50
+  context_frames: 4
+  action_horizon: 10
+  

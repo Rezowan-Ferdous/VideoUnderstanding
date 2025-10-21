@@ -1,0 +1,29 @@
+_target_: src.models.wrappers.vlm.blip_wrapper.BLIP2Wrapper
+
+name: blip2
+type: vlm
+task: captioning
+
+backbone:
+  vision:
+    type: vit
+    model: eva-clip-g
+    img_size: 224
+    patch_size: 14
+  
+  language:
+    type: opt
+    model: opt-2.7b
+    vocab_size: 50272
+
+qformer:
+  num_query_tokens: 32
+  hidden_size: 768
+  num_layers: 12
+  num_heads: 12
+
+generation:
+  max_length: 128
+  num_beams: 5
+  temperature: 1.0
+  top_p: 0.9
