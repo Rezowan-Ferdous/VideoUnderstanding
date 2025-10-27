@@ -7,7 +7,8 @@ from typing import List, Dict, Any, Optional, Tuple
 from datetime import datetime
 import xml.etree.ElementTree as ET
 from tqdm import tqdm
-
+import shutil
+from PIL import Image
 
 
 class CustomToCOCO:
@@ -36,10 +37,22 @@ class CustomToCOCO:
             "annotations": [],
             "categories": self._create_categories()
         }
+        self.category_to_id = {
+        cat["name"]: cat["id"] for cat in self.coco_data["categories"]
+        }
         
         self.image_id = 1
         self.annotation_id = 1
         
+
+    def reset(self):
+        """Resets the data lists to allow for a new split."""
+        print("Resetting converter data...")
+        self.coco_data["images"] = []
+        self.coco_data["annotations"] = []
+        self.image_id = 1
+        self.annotation_id = 1
+
     def _create_info(self) -> Dict:
         """Create dataset info"""
         return {
@@ -66,9 +79,27 @@ class CustomToCOCO:
         self,
         file_name: str,
         width: int,
-        height: int
+        height: int,
+        copy_image: bool = True
     ) -> int:
         """Add image to COCO dataset"""
+        image_path = self.input_dir / file_name
+        if not image_path.exists():
+            print(f"Warning: Image not found {image_path}")
+            return -1 # Or raise error
+
+        # 1. Get image dimensions
+        with Image.open(image_path) as img:
+            width, height = img.size
+
+        # 2. Copy image (optional)
+        if copy_image:
+            # Assumes output structure like 'output_dir/train/data'
+            # This part needs to be tied to your self.save() split logic
+            output_image_dir = self.output_dir / "data" 
+            output_image_dir.mkdir(parents=True, exist_ok=True)
+            shutil.copy(image_path, output_image_dir / file_name)
+
         image_info = {
             "id": self.image_id,
             "file_name": file_name,
@@ -84,6 +115,27 @@ class CustomToCOCO:
         self.image_id += 1
         return current_id
     
+    def _calculate_polygon_area(self, segmentation: List[List[float]]) -> float:
+        """Calculates area of a simple polygon."""
+        # This is a basic implementation (Shoelace formula)
+        # Assumes segmentation is [ [x1, y1, x2, y2, ...] ]
+        if not segmentation or not segmentation[0]:
+            return 0.0
+
+        points = segmentation[0]
+        area = 0.0
+        n = len(points) // 2
+        if n < 3:
+            return 0.0 # Not a polygon
+
+        for i in range(n):
+            x1 = points[i*2]
+            y1 = points[(i*2)+1]
+            x2 = points[((i+1)%n)*2]
+            y2 = points[(((i+1)%n)*2)+1]
+            area += (x1 * y2) - (x2 * y1)
+
+        return abs(area) / 2.0
     def add_annotation(
         self,
         image_id: int,
@@ -95,7 +147,10 @@ class CustomToCOCO:
     ):
         """Add annotation to COCO dataset"""
         if area is None:
-            area = bbox[2] * bbox[3]
+            if segmentation is not None and len(segmentation) > 0:
+                area = self._calculate_polygon_area(segmentation)
+            else:
+                area = bbox[2] * bbox[3] # Fallback to bbox area
         
         annotation = {
             "id": self.annotation_id,
