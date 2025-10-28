@@ -1,0 +1,25 @@
+defaults:
+  - task: multimodal  # Override with task=vlm_captioning, etc.
+  - model: clip    # Override with model=blip2, etc.
+  - data: coco       # Override with data=vqa, etc.
+  - trainer: default
+  - callbacks: default
+  - _self_
+
+# Project settings
+project_name: vision_vlm_vla
+experiment_name: ${task.name}_${model.name}
+output_dir: ./outputs/${experiment_name}
+seed: 42
+
+# Mode: train, eval, train_eval
+mode: train
+
+# Logging
+logging:
+  wandb: false
+  tensorboard: true
+  log_every_n_steps: 10
+
+# Resume training
+resume_from: null
