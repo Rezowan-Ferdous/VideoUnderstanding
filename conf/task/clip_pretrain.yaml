@@ -1,0 +1,35 @@
+# This file defines the "clip_pretrain" task (the LightningModule).
+# It tells Hydra which Python class to load and what arguments
+# (model, loss, optimizer, scheduler) to pass to its __init__ method.
+name: clip_pretrain 
+_target_: src.tasks.multimodal.clip_pretrain_task.CLIPPretrainTask
+
+# --- Arguments for the Task's __init__ ---
+
+# 1. model_config:
+# This uses Hydra's interpolation. It says:
+# "For the 'model_config' argument, pass in whatever is defined as
+# 'model' at the root config level (e.g., the clip.yaml file)."
+model_config: ${model}
+
+# 2. loss:
+# This instantiates our symmetric loss function.
+loss:
+  _target_: src.tasks.losses.vlm_losses.SymmetricCrossEntropyLoss
+
+# 3. optimizer:
+# This defines the optimizer.
+optimizer:
+  _target_: torch.optim.AdamW
+  lr: 5e-5           # A common starting LR for fine-tuning
+  weight_decay: 0.01
+
+# 4. scheduler:
+# This defines the learning rate scheduler.
+# The task's 'configure_optimizers' method is set up to use this.
+scheduler:
+  _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+  mode: "min"      # It will monitor 'val_loss' (which we want to 'min'imize)
+  factor: 0.1
+  patience: 3    # Reduce LR if val_loss doesn't improve for 3 epochs
+

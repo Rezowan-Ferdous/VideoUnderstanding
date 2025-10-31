@@ -1,0 +1,28 @@
+# (New) Config for our new Flickr8k DataModule
+
+name: "flickr8k" # Used for ${data.name}
+
+# _target_ points to the LightningDataModule
+_target_: src.data.clip_dataset.CLIPDataModule
+
+# --- Paths ---
+# Assumes you ran the download script
+data_dir: "data/flickr8k"
+image_path: ${data.data_dir}/images
+captions_path: ${data.data_dir}/captions.csv
+
+# --- Dataloader Params ---
+batch_size: 64
+num_workers: 4
+val_split_pct: 0.1 # Hold out 10% of data for validation
+
+# --- Preprocessing Params ---
+# These get passed to the CLIPDataset
+image_size: 224
+max_length: 77 # Standard max length for CLIP text
+
+# --- Tokenizer Config ---
+# This will be instantiated by Hydra and passed to the DataModule
+tokenizer:
+  _target_: transformers.AutoTokenizer.from_pretrained
+  pretrained_model_name_or_path: "distilbert-base-uncased"

@@ -1,0 +1,28 @@
+name: clip
+
+_target_: src.models.wrappers.vlm.clip_wrapper.CLIPWrapper
+temperature: 0.07
+image_embedding_dim: 768
+text_embedding_dim: 768
+projection_dim: 512
+vision_encoder:
+  _target_: src.models.backbones.vision_encoder.VisionEncoder
+  model_name: timm/vit_base_patch16_224.augreg_in21k_ft_in1k
+  pretrained: true
+  trainable: true
+text_encoder:
+  _target_: src.models.backbones.text_encoder.TextEncoder
+  model_name: distilbert-base-uncased
+  pretrained: true
+  trainable: true
+image_projection:
+  _target_: src.models.heads.projection_head.ProjectionHead
+  embedding_dim: ${model.image_embedding_dim}
+  projection_dim: ${model.projection_dim}
+  dropout: 0.1
+text_projection:
+  _target_: src.models.heads.projection_head.ProjectionHead
+  embedding_dim: ${model.text_embedding_dim}
+  projection_dim: ${model.projection_dim}
+  dropout: 0.1
+

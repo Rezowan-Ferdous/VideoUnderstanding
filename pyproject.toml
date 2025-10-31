@@ -1,0 +1,15 @@
+    [build-system]
+    requires = ["setuptools>=61.0"]
+    build-backend = "setuptools.build_meta"
+
+    [project]
+    name = "video_understanding"
+    version = "0.1.0"
+    description = "A project for video understanding, VLM, and VLA tasks."
+    requires-python = ">=3.10"
+    
+    # This tells setuptools to find your packages inside the 'src' directory
+    [tool.setuptools]
+    package-dir = {"" = "src"}
+    packages = {find = {where = ["src"]}}
+    

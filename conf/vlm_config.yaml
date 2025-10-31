@@ -1,25 +1,36 @@
 defaults:
-  - task: multimodal  # Override with task=vlm_captioning, etc.
-  - model: clip    # Override with model=blip2, etc.
-  - data: coco       # Override with data=vqa, etc.
-  - trainer: default
-  - callbacks: default
+  - task: clip_pretrain  # Our new training task
+  - model: multimodal/clip   # Our new CLIP model
+  - data: flickr8k         # Our new Flickr8k datamodule
+  - trainer: default       # Default Pytorch Lightning trainer
+  - callbacks: default   # Default callbacks (checkpointing, etc.)
   - _self_
 
-# Project settings
-project_name: vision_vlm_vla
-experiment_name: ${task.name}_${model.name}
+# --- Project Settings ---
+project_name: "vision_vlm_vla"
+# Experiment name is dynamic based on task and model
+experiment_name: ${task.name}_${model.name}_${data.name}
+# All outputs will be saved here
 output_dir: ./outputs/${experiment_name}
 seed: 42
 
-# Mode: train, eval, train_eval
+# --- Mode ---
+# 'train' to run training
+# 'eval' to run evaluation
 mode: train
+
 
 # Logging
 logging:
-  wandb: false
-  tensorboard: true
+  wandb:
+    enable: false
+    project: ${project_name}
+    name: ${experiment_name}
+  tensorboard:
+    enable: true
   log_every_n_steps: 10
+
+eval_checkpoint_path: null # e.g., "outputs/clip_pretrain_clip/checkpoints/best.ckpt"
 
 # Resume training
 resume_from: null
