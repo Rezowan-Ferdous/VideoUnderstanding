@@ -4,6 +4,13 @@ import pytorch_lightning as pl
 from pytorch_lightning.loggers import TensorBoardLogger, WandbLogger
 import os
 
+import sys
+from pathlib import Path
+
+# Add project root to path
+project_root = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(project_root))
+
 @hydra.main(config_path="../../conf", config_name="vlm_config", version_base=None)
 def train(cfg: DictConfig):
     """
